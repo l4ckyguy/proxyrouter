@@ -1,0 +1,7 @@
+#!/bin/bash
+
+pip install pytz pillow image django
+sed -i 's/overlays=usbhost1 usbhost2/overlays=usbhost1 usbhost2 i2c0/g' /boot/armbianEnv.txt
+git clone https://github.com/friendlyarm/NanoHatOLED.git
+cd NanoHatOLED
+sudo -H ./install.sh

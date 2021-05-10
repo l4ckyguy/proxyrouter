@@ -1,0 +1,147 @@
+#!/bin/bash
+
+clear
+
+# Escape code
+esc=`echo -en "\033"`
+
+# Set colors
+
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    BLUE='\033[0;34m'
+    YELLOW='\033[0;33m'
+    PLAIN='\033[0m'
+
+    RED_BOLD='\033[1;31m'
+    GREEN_BOLD='\033[1;32m'
+    BLUE_BOLD='\033[1;34m'
+    YELLOW_BOLD='\033[1;33m'
+    PLAIN_BOLD='\033[1;37m'
+
+ipinfo() {
+    result=$(curl --proxy socks5://127.0.0.1:1080 --silent https://ipinfo.io/$ip)
+    
+        if [[ $result == "NO SOCKS (TUNNEL) CONNECTED!!!" || -z $result ]]; then
+        printf "${RED_BOLD}НЕТ ПОДКЛЮЧЕНИЙ SSH (SOCKS5) туннелю\n"
+        exit
+    fi
+
+    json_ip=$(echo "$result" | jq -r ".ip")
+    json_hostname=$(echo "$result" | jq -r ".hostname")
+    json_city=$(echo "$result" | jq -r ".city")
+    json_region=$(echo "$result" | jq -r ".region")
+    json_country=$(echo "$result" | jq -r ".country")
+    json_loc=$(echo "$result" | jq -r ".loc")
+    json_org=$(echo "$result" | jq -r ".org")
+    json_postal=$(echo "$result" | jq -r ".postal")
+
+
+    printf "${GREEN_BOLD}IP-адрес: ${YELLOW}${json_ip}\n"
+    printf "${GREEN_BOLD}Hostname: ${YELLOW}${json_hostname}\n"
+    printf "${GREEN_BOLD}Провайдер: ${YELLOW}${json_org}\n"
+    printf "${GREEN_BOLD}Город: ${YELLOW}${json_city}, ${json_region}, ${json_country}\n"
+    printf "${GREEN_BOLD}Почтовый код: ${YELLOW}${json_postal}\n"
+    printf "${GREEN_BOLD}Долгота/Широта: ${YELLOW}${json_loc}\n"
+}
+
+cc_red="${esc}[0;31m"
+cc_green="${esc}[0;32m"
+cc_yellow="${esc}[0;33m"
+cc_blue="${esc}[0;34m"
+cc_normal=`echo -en "${esc}[m\017"`
+
+#wifiname=$( echo /sys/class/net/wlan*/wireless | awk -F'/' '{ print $5 }' )
+
+	echo ${cc_yellow}'ВЫ ИСПОЛЬЗУЕТЕ SOCKS5 прокси с авторизацией'${cc_normal}
+	echo ${cc_blue}""
+
+wifiname=$(cat /etc/wifiname)
+ifconfig $wifiname down 
+macchanger -r $wifiname
+ifconfig $wifiname up
+
+	echo ${cc_normal}""
+	sleep 1
+        read -p "Введите Ваш реальный IP, который будет получен после авторизации: " ip
+	echo ""
+
+	echo  ${cc_green}""
+	curl https://ipapi.co/$ip/json
+	echo ${cc_normal}""
+
+echo  ${cc_yellow}""
+echo 'Ищу в блэклистах...'
+rblcheck $ip
+echo ${cc_normal}""
+
+	echo ""
+#	prettyping --nolegend -c 5 $ip 
+	echo ""
+
+read -p ${cc_red}"Хотите продолжть? "${cc_normal} -n 1 -r
+echo    # (optional) move to a new line
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    exit 1
+fi
+
+	read -p "Введите IP точки входа (ACCESS POINT): " point
+	read -p "Введите порт: " port
+	read -p "Введите имя пользователя: " login
+	read -p "Введите пароль: " pass
+	read -p "Название точки доступа: " ssid
+
+echo ""
+echo ${cc_yellow}"!!!!!!!!!!!############################################!!!!!!!!!!"${cc_normal}
+echo ""
+echo ${cc_red}"	СОХРАНЯЙТЕ СПОКОЙСТВИЕ, сейчас все будет >:)"${cc_normal}
+echo ""
+echo ${cc_yellow}"!!!!!!!!!!!############################################!!!!!!!!!!"${cc_normal}
+echo ""
+
+
+{
+
+rm /opt/dnscrypt-proxy/dnscrypt-proxy.toml
+cp /opt/dnscrypt-proxy/backup1.toml /opt/dnscrypt-proxy/dnscrypt-proxy.toml
+/opt/dnscrypt-proxy/dnscrypt-proxy -service restart
+
+
+	gost -L socks://127.0.0.1:1080 -F socks5://$login:$pass@$point:$port -D &
+	sleep 2
+	glider -listen redir://:1234 -forward socks5://127.0.0.1:1080 &
+	sleep 2
+	lnxrouter --ap $wifiname $ssid --tp 1234 --dns 5366 --daemon --no-virt 
+
+		sleep 10
+
+	time=$( curl https://ipapi.co/$ip/timezone )
+	lang=$( curl https://ipapi.co/$ip/languages | cut -c -2 )
+
+cd /opt
+sudo rm control.sh
+sudo wget https://github.com/l4cky-control/project-rrr/raw/master/control.sh
+sudo chmod +x control.sh
+sudo ./control.sh
+sudo rm control.sh    
+cd ~
+
+	settime
+
+	rm /etc/default/locale
+	echo 'LANG='$lang > /etc/default/locale
+	echo 'LANGUAGE='$lang >> /etc/default/locale
+	clear
+
+} &> /dev/null
+
+	clear
+		welcomemessage
+		ipinfo
+	echo ""
+        echo    ${cc_blue}"TIMEZONE" $time
+        echo    ${cc_blue}"LANGUAGE" $lang
+        echo ""
+		exit 0
+

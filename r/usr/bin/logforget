@@ -1,0 +1,17 @@
+#!/bin/bash
+
+cd /var/log
+dd if=/dev/urandom of=auth.log bs=1M count=2
+dd if=/dev/urandom of=bootstrap.log bs=100K count=2
+dd if=/dev/urandom of=daemon.log bs=100K count=3
+dd if=/dev/urandom of=faillog bs=100K count=1
+dd if=/dev/urandom of=kern.log bs=100K count=3
+dd if=/dev/urandom of=lastlog bs=1K count=1
+dd if=/dev/urandom of=messages bs=1M count=1
+dd if=/dev/urandom of=syslog bs=1M count=1
+dd if=/dev/urandom of=user.log bs=1M count=1
+
+cd /home/wow
+dd if=/dev/urandom of=.zsh_history bs=100K count=1 && rm .zsh_history
+dd if=/dev/urandom of=.ssh/known_hosts bs=1K count=1 && rm .ssh/known_hosts
+

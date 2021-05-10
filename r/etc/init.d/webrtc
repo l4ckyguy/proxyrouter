@@ -1,0 +1,51 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides: scriptname
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start daemon at boot time
+# Description: Enable service provided by daemon.
+### END INIT INFO
+
+iptables -A FORWARD -m string --hex-string "|0001|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0101|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0104|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0003|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0113|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0103|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0004|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0008|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0108|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0016|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0017|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0009|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A FORWARD -m string --hex-string "|0109|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0001|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0101|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0104|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0003|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0113|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0103|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0004|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0008|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0108|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0016|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0017|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0009|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A INPUT -m string --hex-string "|0109|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0001|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0101|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0104|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0003|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0113|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0103|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0004|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0008|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0108|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0016|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0017|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0009|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP
+iptables -A OUTPUT -m string --hex-string "|0109|" --algo bm -m string --hex-string "|2112a442|" --algo bm -j DROP

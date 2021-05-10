@@ -1,0 +1,49 @@
+#!/bin/bash
+
+#wifiname=$( echo /sys/class/net/wlan*/wireless | awk -F'/' '{ print $5 }' )
+
+clear
+
+echo 'Идет очистка портов, подождите ...'
+
+
+{
+
+wifiname=$(cat /etc/wifiname)
+
+ifconfig $wifiname down 
+macchanger -r $wifiname
+ifconfig $wifiname up
+
+ killall python3
+ killall openvpn
+ lnxrouter --stop $wifiname
+
+ kill `ps -ef|grep "sshuttle -l"|grep -v "grep"|cut -c10-15`
+ kill `ps -ef|grep "ssh -4 -fND"|grep -v "grep"|cut -c10-15`
+ kill `ps -ef|grep "ssh -fND"|grep -v "grep"|cut -c10-15`
+ kill `ps -ef|grep "gost -L"|grep -v "grep"|cut -c10-15`
+ kill `ps -ef|grep "glider -listen"|grep -v "grep"|cut -c10-15`
+ kill `ps -ef|grep "prettyping"|grep -v "grep"|cut -c10-15`
+
+ killall glider
+ killall gost
+
+ iptables -t nat -F
+ iptables -F
+clear
+
+
+ rm /opt/dnscrypt-proxy/dnscrypt-proxy.toml
+ cp /opt/dnscrypt-proxy/backup.toml /opt/dnscrypt-proxy/dnscrypt-proxy.toml
+ /opt/dnscrypt-proxy/dnscrypt-proxy -service uninstall
+ /opt/dnscrypt-proxy/dnscrypt-proxy -service stop 
+ /opt/dnscrypt-proxy/dnscrypt-proxy -service install
+ /opt/dnscrypt-proxy/dnscrypt-proxy -service start
+
+} &> /dev/null
+
+clear
+echo 'Очистка системы завершена!'
+
+sleep 2

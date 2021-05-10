@@ -1,0 +1,11 @@
+#!/bin/bash
+{
+#sleep 5
+TOKEN=31609114c3ea48
+curl -u $TOKEN: ipinfo.io
+ip=$(curl ifconfig.me)
+time=$(curl ipinfo.io/$ip/timezone)
+
+timedatectl set-timezone $time
+
+} &> /dev/null

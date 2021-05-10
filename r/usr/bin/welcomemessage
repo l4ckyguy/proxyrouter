@@ -1,0 +1,35 @@
+#!/bin/bash
+
+
+# Escape code
+esc=`echo -en "\033"`
+
+# Set colors
+cc_red="${esc}[0;31m"
+cc_green="${esc}[0;32m"
+cc_yellow="${esc}[0;33m"
+cc_blue="${esc}[0;34m"
+cc_normal=`echo -en "${esc}[m\017"`
+
+#wifiname=$( echo /sys/class/net/wlan*/wireless | awk -F'/' '{ print $5 }' )
+wifiname=$(cat /etc/wifiname)
+
+clear
+clear
+
+. /etc/update-motd.d/30-armbian-sysinfo
+
+#climate ipinfo
+echo ${cc_red}" "
+
+ iw dev $wifiname info | grep ssid
+
+echo " "
+#climate ipinfoport
+echo ${cc_red}""
+macchanger -s $wifiname
+echo ${cc_normal}""
+echo ""
+#cat /opt/helpme.txt
+#echo ""
+
