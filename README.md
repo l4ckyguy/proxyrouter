@@ -38,5 +38,7 @@ git clone https://gitlab.com/x4k/pr /root/rrr ; cd /root/rrr ; bash install.sh
 ## ЗЫ:
 
 Мною были использованы два этих потрясающих инструменты, которые похожи как брат с сестрой. Ума не приложу, зачем мне понадобились оба, но они тут:
+
 https://github.com/nadoo/glider
+
 https://github.com/ginuerzh/gost
