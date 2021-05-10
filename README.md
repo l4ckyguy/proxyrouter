@@ -18,7 +18,7 @@
 
 ## requirements.txt
 
-    1. FriendlyElec NanoPi2 with OLED Hat and metal box. Не самое современное устройство, в нем нет собственного приемника 80211...  
+    1. FriendlyElec NanoPi2 with OLED Hat and metal box. Не самое современное устройство, в нем нет встроенного чипа 802.11 ...  
     2. ...так что я использую покупную, а а именно USB dongle Comfast CF-811AC.
     3. Образ Armbian для одноименного устройства, с последней стабильной версией Debian. Сборка Server
     4. Прямые руки :) Флешка, Ethernet провод и остальные прикладные мелочи.
