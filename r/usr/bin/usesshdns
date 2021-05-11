@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-clear
+tide
 
 # Escape code
 esc=`echo -en "\033"`
